@@ -1,9 +1,11 @@
 package be.ehb.dt.mycontentprovider;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,8 +18,7 @@ import static be.ehb.dt.mycontentprovider.ShoppingCartContract.ProductEntry;
  */
 public class ProductsDataSource {
 
-    private ShoppingCartDBHelper mShoppingCartDBHelper;
-    private SQLiteDatabase mDatabase;
+    private ContentResolver myCR;
 
     String[] allColumns = {
             ProductEntry._ID,
@@ -28,18 +29,18 @@ public class ProductsDataSource {
 
 
     public ProductsDataSource(Context c) {
-        mShoppingCartDBHelper = new ShoppingCartDBHelper(c);
+        myCR = c.getContentResolver();
     }
 
     public void open() throws SQLException {
-        mDatabase = mShoppingCartDBHelper.getWritableDatabase();
+       // mDatabase = mShoppingCartDBHelper.getWritableDatabase();
     }
 
     public void close(){
-        mShoppingCartDBHelper.close();
+        //mShoppingCartDBHelper.close();
     }
 
-    public Product addProduct(String name, String description, int amount) {
+    public void addProduct(String name, String description, int amount) {
 
         //Create map of values
         ContentValues values = new ContentValues();
@@ -48,24 +49,10 @@ public class ProductsDataSource {
         values.put(ProductEntry.COLUMN_NAME_AMOUNT, amount);
 
 
-        long insertId = mDatabase.insert(ProductEntry.TABLE_NAME, null, values);
-
-
-        Cursor c = mDatabase.query(ProductEntry.TABLE_NAME,
-                allColumns,
-                ProductEntry._ID + " = " + insertId,
-                null,
-                null,
-                null,
-                null);
-        c.moveToFirst();
-        Product p = cursorToProduct(c);
-        c.close();
-
-        return p;
-
+        Uri uri = myCR.insert(ProductContentProvider.CONTENT_URI,values);
     }
 
+    /*
     public List<Product> getAllProducts() {
         List<Product> products = new ArrayList<Product>();
 
@@ -82,6 +69,7 @@ public class ProductsDataSource {
         cursor.close();
         return products;
     }
+    */
 
     private Product cursorToProduct(Cursor c) {
         Product p = new Product();

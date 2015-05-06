@@ -55,7 +55,7 @@ public class ProductContentProvider extends ContentProvider {
                             null);
                 } else {
                     rowsDeleted = sqlDB.delete(ProductEntry.TABLE_NAME,
-                            ProductEntry._ID + "=" + id
+                            ProductEntry._ID   + "=" + id
                                     + " and " + selection,
                             selectionArgs);
                 }

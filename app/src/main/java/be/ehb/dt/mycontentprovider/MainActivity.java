@@ -49,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
         String description = descriptionField.getText().toString();
         int amount = Integer.valueOf(amountField.getText().toString());
 
-        Product p = mProductsDataSource.addProduct(name, description, amount);
-        Toast toast = Toast.makeText(this, p.getName() + " was added", Toast.LENGTH_LONG);
+        mProductsDataSource.addProduct(name, description, amount);
+        Toast toast = Toast.makeText(this, name + " was added", Toast.LENGTH_LONG);
         toast.show();
 
     }
 
-
+/*
     public void showClicked(View v){
         int i;
 
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         tv.setText(productList.get(0).getDescription());
 
     }
+    */
 
     public void addButtonCPClicked(View v){
         EditText nameField = (EditText) findViewById(R.id.editTextProductName);
@@ -75,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
         String description = descriptionField.getText().toString();
         int amount = Integer.valueOf(amountField.getText().toString());
 
-        Product p = mProductsDataSource.addProduct(name, description, amount);
+        mProductsDataSource.addProduct(name, description, amount);
 
-        Toast toast = Toast.makeText(this, p.getName() + " was added", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, name + " was added", Toast.LENGTH_LONG);
         toast.show();
     }
 
